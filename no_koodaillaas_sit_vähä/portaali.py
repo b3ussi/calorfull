@@ -4,7 +4,7 @@ import pygame
 class Portaali(pygame.sprite.Sprite):
     def __init__(self, pos):
         super(Portaali, self).__init__()
-        self.image = pygame.image.load("portaali.png").convert()
+        self.image = pygame.image.load("lisatarvikkeet/portaali.png").convert()
         self.rect = self.image.get_rect(topleft=pos)
         self.aktiivinen = True
 

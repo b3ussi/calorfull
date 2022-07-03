@@ -197,14 +197,14 @@ class Taso:
 
 
     def get_highest_score(self):
-        with open("highscore.txt", "r") as f:
+        with open("lisatarvikkeet/highscore.txt", "r") as f:
             return f.read()
 
 
 
     def parhaat_pisteet_tulostus(self, win):
 
-        with open("highscore.txt", "w") as f:
+        with open("lisatarvikkeet/highscore.txt", "w") as f:
             f.write(str(self.paras_score))
 
         self.fontti = pygame.font.Font("freesansbold.ttf", 32)

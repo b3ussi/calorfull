@@ -4,7 +4,7 @@ class Kartta:
     def __init__(self):
         self.taso = 1
         self.taso_info = open(f"taso_{self.taso}.py", "r")
-        self.hs_file = "highscore.txt"
+        self.hs_file = "lisatarvikkeet/highscore.txt"
 
 
 

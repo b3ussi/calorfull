@@ -1,6 +1,4 @@
 import pygame, sys
-from no_koodaillaas_sit_vähä.asetukset import *
-#from asetukset import tason_numero
 from no_koodaillaas_sit_vähä.taso import *
 import random
 from pelaaja import Pelaaja
@@ -49,10 +47,7 @@ class Partikkelit:
         self.partkkelit = partikkeli_kopio
 
 
-#partikkeli setup
-partikkeli1 = Partikkelit()
-PARTIKKELI_EVENT = pygame.USEREVENT + 1
-pygame.time.set_timer(PARTIKKELI_EVENT, 30)
+
 
 
 #Pelissä näkyvän "ikkunan" määritys
@@ -124,7 +119,10 @@ pygame.init()
 peli_satus = PeliStatus()
 
 
-
+#partikkeli setup
+partikkeli1 = Partikkelit()
+PARTIKKELI_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(PARTIKKELI_EVENT, 30)
 
 
 
