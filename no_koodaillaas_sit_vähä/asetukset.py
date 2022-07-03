@@ -15,6 +15,10 @@ class Kartta:
 PALIKKAKOKO = 32
 LEVEYS = 800
 
+r = 0
+g = 0
+b = 0
+
 # KORKEUS = len(kartta) * PALIKKAKOKO
 KORKEUS = 704
 

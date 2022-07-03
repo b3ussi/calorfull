@@ -9,11 +9,12 @@ class Palikka(pygame.sprite.Sprite):
         super().__init__()
         # Tämä on Sprite-kantaluokasta periytetty olio
         # sillä pitää olla .image ja .rect attribuutit
-        self.image = pygame.Surface((koko, koko))
-        self.image.fill("blue")
+        self.image = pygame.image.load("lisatarvikkeet/stop-palikka.png").convert()
         self.rect = self.image.get_rect(topleft=paikka)
         self.menee_rikki = menee_rikki
         self.aktiivinen = True
+        self.pos_x = self.rect.x
+        self.pos_y = self.rect.y
 
     def anna_pisteet(self):
         if self.aktiivinen:

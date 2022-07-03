@@ -63,6 +63,7 @@ class Taso:
 
 
     def tason_alustus(self, layout):
+        self.menee_rikki = bool(random.getrandbits(1))
         self.palikat = pygame.sprite.Group()
         self.pelaaja = pygame.sprite.GroupSingle()
         self.portaali = pygame.sprite.GroupSingle()
@@ -75,7 +76,9 @@ class Taso:
             # tämä looppi ajaa kaikki rivit
 
             # arvotaan meneekö rivin ensimmäinen palikka rikki (totta (True) tai valetta (False))
-            menee_rikki = bool(random.getrandbits(1))
+            self.rikki = self.menee_rikki
+
+
 
             for solu_indeksi, sarake in enumerate(rivi):
                 # tämä looppi ajaa rivin kaikki merkit
@@ -83,13 +86,13 @@ class Taso:
                 self.x = solu_indeksi * PALIKKAKOKO
                 self.y = rivi_indeksi * PALIKKAKOKO
                 if sarake == "X":
-                    if menee_rikki:
+                    if self.rikki:
                         print(f"palikka {rivi_indeksi} {solu_indeksi} menee rikki")
-                    self.palikka_sprite = Palikka((self.x, self.y), PALIKKAKOKO, menee_rikki)
+                    self.palikka_sprite = Palikka((self.x, self.y), PALIKKAKOKO, self.menee_rikki)
                     self.palikat.add(self.palikka_sprite)
                     # käännetään arvottu totuusarvo (boolean) toisin päin eli todesta tulee vale tai päinvastoin
 
-                    menee_rikki = not menee_rikki
+                    self.rikki = not self.rikki
 
 
 
@@ -99,6 +102,9 @@ class Taso:
                 if sarake == "T":
                     self.portaali_sprite = Portaali((self.x, self.y))
                     self.portaali.add(self.portaali_sprite)
+
+
+
 
 
     def tuho(self):

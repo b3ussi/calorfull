@@ -12,6 +12,10 @@ screen = pygame.display.set_mode((LEVEYS, KORKEUS))
 kello = pygame.time.Clock()
 taso = Taso(screen)
 pelaaja = Pelaaja((taso.x, taso.y))
+timer = 0
+bg = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
+
 
 
 
@@ -19,6 +23,7 @@ pelaaja = Pelaaja((taso.x, taso.y))
 class Partikkelit:
     def __init__(self):
         self.partkkelit = []
+
 
     def partikkelit_l_p(self):
         #liikuttaa + pirtää partikkelit
@@ -31,20 +36,29 @@ class Partikkelit:
                 # kutista
                 partikkeli[1] -= 0.2
                 #piirrä
-                pygame.draw.circle(screen, pygame.Color(250, 250, 250), partikkeli[0], int(partikkeli[1]))
+                pygame.draw.circle(screen, pygame.Color(100, 0, 42), partikkeli[0], int(partikkeli[1]))
+
+
+
 
     def lisaa_partikkelit(self):
-        pos_x = taso.pelaaja_sprite.rect.x + 50
-        pos_y = taso.pelaaja_sprite.rect.y + 60
+        pos_x = taso.pelaaja_sprite.rect.x + 21
+        pos_y = taso.pelaaja_sprite.rect.y + 30
         radius = 7
+
+
         suunta_x = random.randint(-2, 2)
         suunta_y = random.randint(-1, 5)
+
+
+
         partikkeli_ympyra = [[pos_x, pos_y], radius, [suunta_y, suunta_x]]
         self.partkkelit.append(partikkeli_ympyra)
 
     def poista_partikkelit(self):
         partikkeli_kopio = [partikkeli for partikkeli in self.partkkelit if partikkeli[1] > 0]
         self.partkkelit = partikkeli_kopio
+
 
 
 
@@ -90,9 +104,16 @@ class PeliStatus():
 
 
 
-        screen.fill("black")
-        partikkeli1.partikkelit_l_p()
+
+
+
+
+        self.varit = None
+
+        screen.fill(bg)
         taso.run(screen)
+        partikkeli1.partikkelit_l_p()
+
 
 
         taso.elamien_piirto(screen)
@@ -131,7 +152,10 @@ pygame.display.set_caption("calörful")
 
 #pelilooppi
 while True:
+    if pygame.time.get_ticks() - timer > 100:
+        timer = pygame.time.get_ticks()
+        bg = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
     peli_satus.status_manageri()
     kello.tick(60)
 
-    #move_and_draw_all_game_objects()
