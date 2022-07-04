@@ -13,7 +13,7 @@ kello = pygame.time.Clock()
 taso = Taso(screen)
 pelaaja = Pelaaja((taso.x, taso.y))
 timer = 0
-bg = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
 
 
 
@@ -99,19 +99,13 @@ class PeliStatus():
             if event.type == PARTIKKELI_EVENT:
                 partikkeli1.lisaa_partikkelit()
 
+        bg = pygame.image.load("lisatarvikkeet/bg.png").convert_alpha()
+        screen.blit(bg, (0, 0))
 
-
-
-
-
-
-
-
-
-        self.varit = None
-
-        screen.fill(bg)
         taso.run(screen)
+
+
+
         partikkeli1.partikkelit_l_p()
 
 
@@ -120,8 +114,6 @@ class PeliStatus():
         taso.pisteiden_tulostus(screen)
         taso.kuollut(screen, LEVEYS, KORKEUS)
         taso.parhaat_pisteet_tulostus(screen)
-
-
         pygame.display.update()
 
 
@@ -152,10 +144,8 @@ pygame.display.set_caption("calörful")
 
 #pelilooppi
 while True:
-    if pygame.time.get_ticks() - timer > 100:
-        timer = pygame.time.get_ticks()
-        bg = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
     peli_satus.status_manageri()
+
     kello.tick(60)
 
