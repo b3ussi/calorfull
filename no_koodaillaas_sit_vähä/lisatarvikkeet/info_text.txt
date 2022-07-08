@@ -1,0 +1,13 @@
+-Hi!
+This game is made by 15 yo boy from Finland. I didn't make this game for example to put it to Steam or to get money from it.
+I made it only for studying purposes. I didn't aim to perfect game at any point.
+At the begining i had two goals:
+My first and biggest goal was to learn how to use pygame and python in general.
+And if i'm being honest I think I did great job with that.
+Then the second goal was to build a game which might be fun to play.
+When I'm writing this I really find the game fun to play though it isn't anything special.
+
+---------------------------------------------------------------------------------------------------------------------------------
+Oki, now let's head to the real info section:
+
+

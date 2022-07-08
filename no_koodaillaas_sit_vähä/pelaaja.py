@@ -6,7 +6,7 @@ import pygame
 class Pelaaja(pygame.sprite.Sprite):
     def __init__(self, pos):
         super(Pelaaja, self).__init__()
-        self.image = pygame.image.load("lisatarvikkeet/pallo.png").convert()
+        self.image = pygame.image.load("lisatarvikkeet/pallo.png").convert_alpha()
         # self.image = pygame.Surface((32, 32))
         # self.image.fill("green")
         self.rect = self.image.get_rect(topleft=pos)

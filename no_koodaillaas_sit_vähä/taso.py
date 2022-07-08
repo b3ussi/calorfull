@@ -6,8 +6,7 @@ from os import path
 import random
 from portaali import Portaali
 
-kartta = Kartta()
-taso = kartta.taso
+
 
 
 
@@ -27,7 +26,7 @@ class Taso:
 
 
         self.display_surface = surface
-        self.tason_alustus(kartta.taso_info)
+        self.tason_alustus(kartta_1)
         self.world_shift = 5
         self.paras_score = 0
         self.pisteet = 0
@@ -42,17 +41,18 @@ class Taso:
 
 
 
-    def load_data(self, win):
-        #lataa high score
-        self.dir = path.dirname(__file__)
-        with open(path.join(self.dir, kartta.hs_file), "w") as f:
-            try:
-                self.paras_score = int(f.read())
-            except:
-                self.paras_score = 0
 
-            with open(path.join(self.dir, kartta.hs_file), "w") as f:
-                f.write(str(self.paras_score))
+    # def load_data(self, win):
+    #     #lataa high score
+    #     self.dir = path.dirname(__file__)
+    #     with open(path.join(self.dir, kartta.hs_file), "w") as f:
+    #         try:
+    #             self.paras_score = int(f.read())
+    #         except:
+    #             self.paras_score = 0
+    #
+    #         with open(path.join(self.dir, kartta.hs_file), "w") as f:
+    #             f.write(str(self.paras_score))
 
 
 
@@ -63,7 +63,6 @@ class Taso:
 
 
     def tason_alustus(self, layout):
-        self.menee_rikki = bool(random.getrandbits(1))
         self.palikat = pygame.sprite.Group()
         self.pelaaja = pygame.sprite.GroupSingle()
         self.portaali = pygame.sprite.GroupSingle()
@@ -71,12 +70,13 @@ class Taso:
 
 
 
-        print(taso)
-        for rivi_indeksi, rivi in enumerate(kartta.taso_info):
+
+
+        for rivi_indeksi, rivi in enumerate(kartta_1):
             # tämä looppi ajaa kaikki rivit
 
             # arvotaan meneekö rivin ensimmäinen palikka rikki (totta (True) tai valetta (False))
-            self.rikki = self.menee_rikki
+            menee_rikki = bool(random.getrandbits(1))
 
 
 
@@ -86,22 +86,20 @@ class Taso:
                 self.x = solu_indeksi * PALIKKAKOKO
                 self.y = rivi_indeksi * PALIKKAKOKO
                 if sarake == "X":
-                    if self.rikki:
+                    if menee_rikki:
                         print(f"palikka {rivi_indeksi} {solu_indeksi} menee rikki")
-                    self.palikka_sprite = Palikka((self.x, self.y), PALIKKAKOKO, self.menee_rikki)
+                    self.palikka_sprite = Palikka((self.x, self.y), PALIKKAKOKO, menee_rikki)
                     self.palikat.add(self.palikka_sprite)
                     # käännetään arvottu totuusarvo (boolean) toisin päin eli todesta tulee vale tai päinvastoin
 
-                    self.rikki = not self.rikki
+                    menee_rikki = not menee_rikki
 
 
 
                 if sarake == "P":
                     self.pelaaja_sprite = Pelaaja((self.x, self.y))
                     self.pelaaja.add(self.pelaaja_sprite)
-                if sarake == "T":
-                    self.portaali_sprite = Portaali((self.x, self.y))
-                    self.portaali.add(self.portaali_sprite)
+
 
 
 
@@ -109,6 +107,8 @@ class Taso:
 
     def tuho(self):
         pygame.sprite.spritecollide(self.pelaaja_sprite, self.palikat, True)
+
+
 
     def elamien_piirto(self, win):
         self.elamat = self.pelaaja_sprite.elamat
@@ -129,7 +129,7 @@ class Taso:
                     # isinstance tarkastaa että sprite on Palikka-tyyppiä
 
                     if sprite.menee_rikki == False:
-                                self.pisteet += sprite.anna_pisteet()
+                            self.pisteet += sprite.anna_pisteet()
 
                     if sprite.menee_rikki:
                         print("tämä laattaa hajoaa!")
@@ -142,25 +142,6 @@ class Taso:
                             if self.pelaaja_sprite.elamat == 0:
                                 print("Kuolit lopullisesti")
                                 self.pelaaja_sprite.elossa = False
-
-    def tormaykset_portaali(self):
-        pelaaja = self.pelaaja.sprite
-        for sprite in self.portaali.sprites():
-            if sprite.rect.colliderect(pelaaja.rect):
-                if isinstance(sprite, Portaali):
-                    kartta.taso += 1
-                    print(kartta.taso)
-                    self.tason_alustus(self.taso_info)
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -177,15 +158,15 @@ class Taso:
 
 
 
-    def kuollut(self, win, win_widht, win_height):
+    def kuollut(self, win):
         if self.pelaaja_sprite.elossa == False:
             self.game_over = True
+            win.fill((0, 0, 0))
 
-            win.fill((0,0,0))
             self.fontti = pygame.font.Font("freesansbold.ttf", 32)
             self.teksti = self.fontti.render("You died! Press r to restart", True, (255, 255, 255))
             self.tekstiRect = self.teksti.get_rect()
-            self.tekstiRect.center = (win_widht // 2, win_height // 2)
+            self.tekstiRect.center = (KORKEUS // 2, LEVEYS // 2)
             win.blit(self.teksti, self.tekstiRect)
 
             self.nappaimet = pygame.key.get_pressed()
@@ -197,7 +178,11 @@ class Taso:
                 self.pisteet = 0
                 self.pelaaja_sprite.elossa = True
                 self.pelaaja_sprite.elamat = 3
-                self.tason_alustus(self.taso_info)
+                self.tason_alustus(kartta_1)
+
+
+
+
 
 
 
@@ -252,16 +237,17 @@ class Taso:
         #palikat
         self.palikat.draw(self.display_surface)
         self.palikat.update(self.world_shift)
-        #portaali
-        self.portaali.draw(self.display_surface)
-        self.portaali.update(self.world_shift)
+
         #pelaaja
         self.pelaaja.draw(self.display_surface)
         self.pelaaja.update()
         self.scroll_y()
         self.tormaykset_palikka()
-        self.tormaykset_portaali()
         self.pelaajan_liikkumisen_rajoitus()
+        self.elamien_piirto(win)
+        self.parhaat_pisteet_tulostus(win)
+        self.pisteiden_tulostus(win)
+        self.kuollut(win)
 
 
 

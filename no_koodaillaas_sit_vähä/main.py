@@ -6,14 +6,45 @@ from pelaaja import Pelaaja
 
 
 
-#yleinen alustus
-kartta = Kartta()
-screen = pygame.display.set_mode((LEVEYS, KORKEUS))
+
+
+
+
+
+#--screen
+screen = pygame.display.set_mode((LEVEYS, KORKEUS), pygame.RESIZABLE)
+#--yleinen alustus
 kello = pygame.time.Clock()
 taso = Taso(screen)
 pelaaja = Pelaaja((taso.x, taso.y))
-timer = 0
 
+#--kuvat ja videot
+bg = pygame.image.load("lisatarvikkeet/bg.png").convert()
+start_kuva = pygame.image.load("lisatarvikkeet/start_nappula.png").convert_alpha()
+#ns = no scale
+about_kuva_ns = pygame.image.load("lisatarvikkeet/readme_nappula.png").convert_alpha()
+about_kuva = pygame.transform.scale(about_kuva_ns, (140, 90))
+ui_bg = pygame.image.load("lisatarvikkeet/ui_bg.png")
+teksti_luettu = False
+
+
+
+def info_text():
+    file = "lisatarvikkeet/info_text.txt"
+    file_avaus = open(file)
+    rivit = file_avaus.read()
+    file_avaus.close()
+
+    teksti_raw = "".join(rivit)
+
+
+
+
+    font = pygame.font.Font('freesansbold.ttf', 15)
+    teksti = font.render(teksti_raw, True, (255, 255, 255))
+    tekstiRect = teksti.get_rect()
+    tekstiRect.center = (600, 100)
+    screen.blit(teksti, tekstiRect)
 
 
 
@@ -78,19 +109,33 @@ class PeliStatus():
             self.intro()
         if self.status == "paa_peli":
             self.paa_peli()
+        if self.status == "info":
+            self.info()
 
     def intro(self):
+        screen.blit(ui_bg, (0, 0))
+
+        start_btn.draw()
+        read_me_btn.draw()
+
+
         self.status = "intro"
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+
+
+            if start_btn.draw():
                 self.status = "paa_peli"
-            screen.fill("green")
-            pygame.display.update()
+
+            if read_me_btn.draw():
+                self.status = "info"
+
+        pygame.display.update()
 
     def paa_peli(self):
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -99,22 +144,67 @@ class PeliStatus():
             if event.type == PARTIKKELI_EVENT:
                 partikkeli1.lisaa_partikkelit()
 
-        bg = pygame.image.load("lisatarvikkeet/bg.png").convert_alpha()
+
         screen.blit(bg, (0, 0))
 
-        taso.run(screen)
-
-
-
         partikkeli1.partikkelit_l_p()
-
-
-
-        taso.elamien_piirto(screen)
-        taso.pisteiden_tulostus(screen)
-        taso.kuollut(screen, LEVEYS, KORKEUS)
-        taso.parhaat_pisteet_tulostus(screen)
+        taso.run(screen)
         pygame.display.update()
+
+    def info(self):
+        screen.fill("black")
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+
+        info_text()
+
+
+
+
+
+        pygame.display.update()
+
+
+
+
+
+
+
+status = PeliStatus()
+
+
+class Button():
+    def __init__(self, x, y, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.klikattu = False
+
+    def draw(self):
+        self.action = False
+        pos = pygame.mouse.get_pos()
+
+
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1 and self.klikattu == False:
+                self.klikattu = True
+                self.action = True
+
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.klikattu = False
+
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+        return self.action
+
+start_btn = Button(900 , 760, start_kuva)
+read_me_btn = Button(690, 80, about_kuva)
+
+
+
+
 
 
 
@@ -132,6 +222,8 @@ pygame.init()
 peli_satus = PeliStatus()
 
 
+
+
 #partikkeli setup
 partikkeli1 = Partikkelit()
 PARTIKKELI_EVENT = pygame.USEREVENT + 1
@@ -144,8 +236,6 @@ pygame.display.set_caption("calörful")
 
 #pelilooppi
 while True:
-
     peli_satus.status_manageri()
-
     kello.tick(60)
 

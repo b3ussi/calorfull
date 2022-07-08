@@ -1,28 +1,3 @@
-# import random
-from asetukset import kartta
-import pygame
-# lives = 3
-# score = 0
-# k = ["a", "b"]
-#
-#
-#
-#
-# poop = True
-# while poop:
-#     o = random.choice(k)
-#     b = input("a or b?: ")
-#     if o == b:
-#         score += 1
-#         continue
-#
-#     else:
-#         lives -= 1
-#         print("u lost one heart")
-#     if lives == 0:
-#         print("U died lol")
-#         break
-# print(f"ur score was: {score}")
 
 
 
