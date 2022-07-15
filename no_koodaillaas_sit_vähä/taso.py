@@ -4,7 +4,7 @@ from no_koodaillaas_sit_vähä.asetukset import *
 from no_koodaillaas_sit_vähä.pelaaja import Pelaaja
 from os import path
 import random
-from portaali import Portaali
+
 
 
 
@@ -27,7 +27,6 @@ class Taso:
 
         self.display_surface = surface
         self.tason_alustus(kartta_1)
-        self.world_shift = 5
         self.paras_score = 0
         self.pisteet = 0
         self.aktiivinen = True
@@ -54,31 +53,17 @@ class Taso:
     #         with open(path.join(self.dir, kartta.hs_file), "w") as f:
     #             f.write(str(self.paras_score))
 
-
-
-
-
-
-
-
-
     def tason_alustus(self, layout):
         self.palikat = pygame.sprite.Group()
         self.pelaaja = pygame.sprite.GroupSingle()
         self.portaali = pygame.sprite.GroupSingle()
         self.pelaajan_status = True
 
-
-
-
-
         for rivi_indeksi, rivi in enumerate(kartta_1):
             # tämä looppi ajaa kaikki rivit
 
             # arvotaan meneekö rivin ensimmäinen palikka rikki (totta (True) tai valetta (False))
             menee_rikki = bool(random.getrandbits(1))
-
-
 
             for solu_indeksi, sarake in enumerate(rivi):
                 # tämä looppi ajaa rivin kaikki merkit
@@ -93,8 +78,6 @@ class Taso:
                     # käännetään arvottu totuusarvo (boolean) toisin päin eli todesta tulee vale tai päinvastoin
 
                     menee_rikki = not menee_rikki
-
-
 
                 if sarake == "P":
                     self.pelaaja_sprite = Pelaaja((self.x, self.y))
@@ -117,11 +100,12 @@ class Taso:
         win.blit(self.teksti, (60, 60))
 
 
+
     def tormaykset_palikka(self):
         pelaaja = self.pelaaja.sprite
 
-        self.pelaaja_sprite.rect.x += self.pelaaja_sprite.suunta.x * self.pelaaja_sprite.nopeus
-        self.pelaaja_sprite.rect.y += self.pelaaja_sprite.suunta.y * self.pelaaja_sprite.nopeus
+        # self.pelaaja_sprite.rect.x += self.pelaaja_sprite.suunta.x * self.pelaaja_sprite.nopeus
+        # self.pelaaja_sprite.rect.y += self.pelaaja_sprite.suunta.y * self.pelaaja_sprite.nopeus
 
         for sprite in self.palikat.sprites():
             if sprite.rect.colliderect(pelaaja.rect):
@@ -236,14 +220,14 @@ class Taso:
     def run(self, win):
         #palikat
         self.palikat.draw(self.display_surface)
-        self.palikat.update(self.world_shift)
+        self.palikat.update()
 
         #pelaaja
         self.pelaaja.draw(self.display_surface)
         self.pelaaja.update()
-        self.scroll_y()
+        # self.scroll_y()
         self.tormaykset_palikka()
-        self.pelaajan_liikkumisen_rajoitus()
+        # self.pelaajan_liikkumisen_rajoitus()
         self.elamien_piirto(win)
         self.parhaat_pisteet_tulostus(win)
         self.pisteiden_tulostus(win)

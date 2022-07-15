@@ -2,6 +2,7 @@ import pygame, sys
 from no_koodaillaas_sit_vähä.taso import *
 import random
 from pelaaja import Pelaaja
+from pygame_functions import *
 
 
 
@@ -47,6 +48,8 @@ def info_text():
     screen.blit(teksti, tekstiRect)
 
 
+
+        
 
 
 
@@ -126,6 +129,7 @@ class PeliStatus():
                 sys.exit()
 
 
+
             if start_btn.draw():
                 self.status = "paa_peli"
 
@@ -143,7 +147,6 @@ class PeliStatus():
                 sys.exit()
             if event.type == PARTIKKELI_EVENT:
                 partikkeli1.lisaa_partikkelit()
-
 
         screen.blit(bg, (0, 0))
 

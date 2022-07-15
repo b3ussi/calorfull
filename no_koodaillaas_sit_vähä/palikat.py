@@ -28,8 +28,7 @@ class Palikka(pygame.sprite.Sprite):
 
 
 
-    def update(self, y_shiftaus):
-            self.rect.y += y_shiftaus
+
 
 
 
