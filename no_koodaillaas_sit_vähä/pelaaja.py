@@ -22,15 +22,27 @@ class Pelaaja(pygame.sprite.Sprite):
 
 
     def get_input(self):
+        y = self.rect.y
         nappaimet = pygame.key.get_pressed()
-        if self.rect.y < 1000:
-            if nappaimet[pygame.K_d]:
-                self.set_pos(655, 785)
-            if nappaimet[pygame.K_a]:
-                self.set_pos(450, 785)
-#muuta arvoja, kesken
-        elif self.rect.y < 985:
-            pass
+
+        #tiedän, että on turha mutten jaksa poistaa :)
+        if True:
+
+            if y < 897 and y > 600:
+                if nappaimet[pygame.K_d]:
+                    self.set_pos(12, 300)
+
+                if nappaimet[pygame.K_a]:
+                    self.set_pos(12, 300)
+
+            if y <= 896 and y >= 800:
+                if nappaimet[pygame.K_d]:
+                    self.set_pos(655, 785)
+
+                if nappaimet[pygame.K_a]:
+                    self.set_pos(450, 785)
+
+
 
 
 

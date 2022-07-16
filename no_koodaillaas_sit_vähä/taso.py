@@ -59,25 +59,39 @@ class Taso:
         self.portaali = pygame.sprite.GroupSingle()
         self.pelaajan_status = True
 
+
         for rivi_indeksi, rivi in enumerate(kartta_1):
             # tämä looppi ajaa kaikki rivit
 
             # arvotaan meneekö rivin ensimmäinen palikka rikki (totta (True) tai valetta (False))
             menee_rikki = bool(random.getrandbits(1))
 
+
+
             for solu_indeksi, sarake in enumerate(rivi):
                 # tämä looppi ajaa rivin kaikki merkit
                 # yhdellä rivillä voi olla vain kaksi palikkaa
                 self.x = solu_indeksi * PALIKKAKOKO
                 self.y = rivi_indeksi * PALIKKAKOKO
+
+
+
                 if sarake == "X":
-                    if menee_rikki:
-                        print(f"palikka {rivi_indeksi} {solu_indeksi} menee rikki")
+
+
+
                     self.palikka_sprite = Palikka((self.x, self.y), PALIKKAKOKO, menee_rikki)
                     self.palikat.add(self.palikka_sprite)
+
                     # käännetään arvottu totuusarvo (boolean) toisin päin eli todesta tulee vale tai päinvastoin
 
                     menee_rikki = not menee_rikki
+
+                    if menee_rikki:
+                        self.palikka = 1
+                    else:
+                        self.palikka = 2
+                        print("!noi")
 
                 if sarake == "P":
                     self.pelaaja_sprite = Pelaaja((self.x, self.y))

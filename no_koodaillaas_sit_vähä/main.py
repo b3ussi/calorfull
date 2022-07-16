@@ -235,7 +235,7 @@ pygame.time.set_timer(PARTIKKELI_EVENT, 30)
 
 
 #otsikko
-pygame.display.set_caption("calörful")
+pygame.display.set_caption("RTDWD")
 
 #pelilooppi
 while True:
