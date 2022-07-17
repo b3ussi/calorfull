@@ -4,6 +4,7 @@ from pygame_functions import *
 
 
 
+
 class Pelaaja(pygame.sprite.Sprite):
     def __init__(self, pos):
         super(Pelaaja, self).__init__()
@@ -13,6 +14,8 @@ class Pelaaja(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
         self.elamat = 3
         self.elossa = True
+
+
 
 
 
@@ -41,14 +44,6 @@ class Pelaaja(pygame.sprite.Sprite):
 
                 if nappaimet[pygame.K_a]:
                     self.set_pos(450, 785)
-
-
-
-
-
-
-
-
 
 
 

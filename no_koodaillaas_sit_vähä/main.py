@@ -1,8 +1,11 @@
 import pygame, sys
+from pygame import BLEND_RGB_ADD
+
 from no_koodaillaas_sit_vähä.taso import *
 import random
 from pelaaja import Pelaaja
 from pygame_functions import *
+from lisatarvikkeet.info_text import *
 
 
 
@@ -26,26 +29,53 @@ start_kuva = pygame.image.load("lisatarvikkeet/start_nappula.png").convert_alpha
 about_kuva_ns = pygame.image.load("lisatarvikkeet/readme_nappula.png").convert_alpha()
 about_kuva = pygame.transform.scale(about_kuva_ns, (140, 90))
 ui_bg = pygame.image.load("lisatarvikkeet/ui_bg.png")
-teksti_luettu = False
+fontti = "freesansbold.ttf"
+fontSize = 15
+fontColour = (255, 255, 255)
+glow_color = (255, 255, 255)
+inf_1 = info_teksti1
+inf_2 = info_teksti2
+inf_3 = info_teksti3
+inf_4 = info_teksti4
+inf_5 = info_teksti5
+inf_6 = info_teksti6
+inf_7 = info_teksti7
+inf_8 = info_teksti8
+inf_9 = info_teksti9
+inf_10 = info_teksti10
+
+
+
 
 
 
 def info_text():
-    file = "lisatarvikkeet/info_text.txt"
-    file_avaus = open(file)
-    rivit = file_avaus.read()
-    file_avaus.close()
 
-    teksti_raw = "".join(rivit)
+    for t in range(10):
+        x = 60
+        y = 60
 
-
-
-
-    font = pygame.font.Font('freesansbold.ttf', 15)
-    teksti = font.render(teksti_raw, True, (255, 255, 255))
-    tekstiRect = teksti.get_rect()
-    tekstiRect.center = (600, 100)
-    screen.blit(teksti, tekstiRect)
+        font = pygame.font.Font(fontti, fontSize)
+        teksti1 = font.render(inf_1, True, fontColour)
+        teksti2 = font.render(inf_2, True, fontColour)
+        teksti3 = font.render(inf_3, True, fontColour)
+        teksti4 = font.render(inf_4, True, fontColour)
+        teksti5 = font.render(inf_5, True, fontColour)
+        teksti6 = font.render(inf_6, True, fontColour)
+        teksti7 = font.render(inf_7, True, fontColour)
+        teksti8 = font.render(inf_8, True, fontColour)
+        teksti9 = font.render(inf_9, True, fontColour)
+        teksti10 = font.render(inf_10, True, fontColour)
+        screen.blit(teksti1, (x, y))
+        screen.blit(teksti2, (x, y + 20))
+        screen.blit(teksti3, (x, y + 40))
+        screen.blit(teksti4, (x, y + 60))
+        screen.blit(teksti5, (x, y + 80))
+        screen.blit(teksti6, (x, y + 100))
+        screen.blit(teksti7, (x, y + 120))
+        screen.blit(teksti8, (x, y + 140))
+        screen.blit(teksti9, (x, y + 160))
+        screen.blit(teksti10,(x, y + 180))
 
 
 
@@ -54,44 +84,19 @@ def info_text():
 
 
 
-class Partikkelit:
-    def __init__(self):
-        self.partkkelit = []
+particles = []
 
 
-    def partikkelit_l_p(self):
-        #liikuttaa + pirtää partikkelit
-        if self.partkkelit:
-            self.poista_partikkelit()
-            for partikkeli in self.partkkelit:
-                #siirrä
-                partikkeli[0][1] += partikkeli[2][0]
-                partikkeli[0][0] += partikkeli[2][1]
-                # kutista
-                partikkeli[1] -= 0.2
-                #piirrä
-                pygame.draw.circle(screen, pygame.Color(100, 0, 42), partikkeli[0], int(partikkeli[1]))
+
+def circle_surf(radius, color):
+    surf = pygame.Surface((radius * 2, radius * 2))
+    pygame.draw.circle(surf, color, (radius, radius), radius)
+    surf.set_colorkey((0, 0, 0))
+    return surf
 
 
 
 
-    def lisaa_partikkelit(self):
-        pos_x = taso.pelaaja_sprite.rect.x + 21
-        pos_y = taso.pelaaja_sprite.rect.y + 30
-        radius = 7
-
-
-        suunta_x = random.randint(-2, 2)
-        suunta_y = random.randint(-1, 5)
-
-
-
-        partikkeli_ympyra = [[pos_x, pos_y], radius, [suunta_y, suunta_x]]
-        self.partkkelit.append(partikkeli_ympyra)
-
-    def poista_partikkelit(self):
-        partikkeli_kopio = [partikkeli for partikkeli in self.partkkelit if partikkeli[1] > 0]
-        self.partkkelit = partikkeli_kopio
 
 
 
@@ -140,18 +145,36 @@ class PeliStatus():
 
     def paa_peli(self):
 
+        # screen.blit(bg, (0, 0))
+        screen.fill((0, 0, 0))
+
+        taso.run(screen)
+
+        mx, my = pygame.mouse.get_pos()
+        particles.append([[mx, my], [random.randint(0, 20 ) / 10 - 1, -5], random.randint(6, 11)])
+
+        for particle in particles:
+            particle[0][0] += particle[1][0]
+            particle[0][1] += particle[1][1]
+            particle[2] -= 0.1
+            particle[1][1] += 0.15
+            pygame.draw.circle(screen, (255, 255, 255), [int(particle[0][0]), int(particle[0][1])], int(particle[2]))
+
+            radius = particle[2] * 2
+            screen.blit(circle_surf(radius, (20, 20, 60)), (int(particle[0][0] - radius), int(particle[0][1] - radius)),
+                        special_flags=BLEND_RGB_ADD)
+
+            if particle[2] <= 0:
+                particles.remove(particle)
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == PARTIKKELI_EVENT:
-                partikkeli1.lisaa_partikkelit()
 
-        screen.blit(bg, (0, 0))
 
-        partikkeli1.partikkelit_l_p()
-        taso.run(screen)
+
         pygame.display.update()
 
     def info(self):
@@ -228,9 +251,9 @@ peli_satus = PeliStatus()
 
 
 #partikkeli setup
-partikkeli1 = Partikkelit()
+# partikkeli1 = Partikkelit()
 PARTIKKELI_EVENT = pygame.USEREVENT + 1
-pygame.time.set_timer(PARTIKKELI_EVENT, 30)
+pygame.time.set_timer(PARTIKKELI_EVENT, 20)
 
 
 
