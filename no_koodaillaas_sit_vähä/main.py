@@ -149,15 +149,17 @@ class PeliStatus():
         screen.fill((0, 0, 0))
 
         taso.run(screen)
+        x = taso.pelaaja_sprite.rect.x + 40
+        y = taso.pelaaja_sprite.rect.y + 30
 
-        mx, my = pygame.mouse.get_pos()
-        particles.append([[mx, my], [random.randint(0, 20 ) / 10 - 1, -5], random.randint(6, 11)])
+        particles.append([[x, y], [random.randint(0, 20) / 10 - 1, 5], random.randint(0, 15)])
 
         for particle in particles:
             particle[0][0] += particle[1][0]
             particle[0][1] += particle[1][1]
             particle[2] -= 0.1
-            particle[1][1] += 0.15
+            #painovoima
+            # particle[1][1] += 0.15
             pygame.draw.circle(screen, (255, 255, 255), [int(particle[0][0]), int(particle[0][1])], int(particle[2]))
 
             radius = particle[2] * 2
@@ -227,6 +229,8 @@ class Button():
 
 start_btn = Button(900 , 760, start_kuva)
 read_me_btn = Button(690, 80, about_kuva)
+
+
 
 
 
