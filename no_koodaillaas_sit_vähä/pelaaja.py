@@ -15,6 +15,7 @@ class Pelaaja(pygame.sprite.Sprite):
         self.elamat = 3
         self.elossa = True
         self.kp = Kirjanpito()
+        self.kp.rivin_tulostus()
 
 
 
@@ -30,9 +31,10 @@ class Pelaaja(pygame.sprite.Sprite):
 
 
 
+
     def get_input(self):
         nappaimet = pygame.key.get_pressed()
-        print(self.kp.laatan_sijainti)
+        print(self.kp.laatan_posX, self.kp.laatan_posY)
 
 
 
@@ -40,13 +42,14 @@ class Pelaaja(pygame.sprite.Sprite):
 
         if nappaimet[pygame.K_d]:
             if self.kp.laatan_puoli == "oikea":
-                self.set_pos(self.kp.laatan_sijainti)
-
+                self.set_pos(self.kp.laatan_posX, self.kp.laatan_posY)
+                print(self.kp.laatan_posX, self.kp.laatan_posY)
 
 
         if nappaimet[pygame.K_a]:
             if self.kp.laatan_puoli == "vasen":
-                self.set_pos(self.kp.laatan_sijainti)
+                print(self.kp.laatan_posX, self.kp.laatan_posY)
+                self.set_pos(self.kp.laatan_posX, self.kp.laatan_posY)
 
 
 

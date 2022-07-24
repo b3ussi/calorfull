@@ -259,13 +259,15 @@ peli_satus = PeliStatus()
 PARTIKKELI_EVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(PARTIKKELI_EVENT, 20)
 
-
-
+# np = 1920 / 2
+# np2 = 1080 / 2
 #otsikko
 pygame.display.set_caption("RTDWD")
 
 #pelilooppi
 while True:
     peli_satus.status_manageri()
+    # pygame.draw.circle(screen, (0, 255, 0), (np, np2), 10, 0)
+    # pygame.display.update()
     kello.tick(60)
 

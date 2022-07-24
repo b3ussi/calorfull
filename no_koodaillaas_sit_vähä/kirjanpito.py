@@ -16,15 +16,15 @@ class Kirjanpito:
                 self.y = rivi_indeksi * PALIKKAKOKO
 
                 if solu == "X":
-                    laatan_pos = [self.x, self.y]
-                    if laatan_pos[0] > self.naytto_puolix:
-                        self.laatan_puoli = "oikea"
-                        self.laatan_sijainti = (laatan_pos[0], laatan_pos[1])
+                    self.laatan_posX, self.laatan_posY = self.x, self.y
 
 
-                    if laatan_pos[0] < self.naytto_puolix:
+
+                    if self.laatan_posX < self.naytto_puolix:
                         self.laatan_puoli = "vasen"
-                        self.laatan_sijainti = (laatan_pos[0], laatan_pos[1])
+
+                    if self.laatan_posX > self.naytto_puolix:
+                        self.laatan_puoli = "oikea"
 
 
 
@@ -33,9 +33,12 @@ class Kirjanpito:
 
 
 
-    # millä rivillä pelaaja on?
-    # Tämä luokka kertoo pelaaja- oliolle mille laatalle sen kuuluisi mennä
 
-# a = Kirjanpito()
-#
-# a.rivin_tulostus()
+
+
+# millä rivillä pelaaja on?
+# Tämä luokka kertoo pelaaja- oliolle mille laatalle sen kuuluisi mennä
+
+k = Kirjanpito()
+
+
